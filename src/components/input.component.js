@@ -13,7 +13,7 @@ function InputForm({ addTodo }) {
     <>
       <Input.Group size="large">
         <Row gutter={10}>
-          <Col span={18}>
+          <Col span={18} >
             <Input placeholder="Todo" value={todo} onChange={(e) => setTodo(e.target.value)} />
           </Col>
           <Col span={6}>
