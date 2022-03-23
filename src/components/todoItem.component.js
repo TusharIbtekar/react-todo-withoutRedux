@@ -8,7 +8,7 @@ function TodoItem({ todos, onDelete, onDone }) {
 
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete this task?',
+      title: 'Are you sure to delete this task?',
       icon: <ExclamationCircleOutlined />,
       okText: 'Yes',
       okType: 'danger',
