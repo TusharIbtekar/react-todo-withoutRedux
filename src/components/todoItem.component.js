@@ -32,7 +32,6 @@ function TodoItem({ todos, onDelete, onDone }) {
               <List.Item>
                 <Row>
                   <Space>
-
                     <Checkbox checked={item.done} onChange={() => onDone(item.id)} />
                     <Typography.Text>{item.title}</Typography.Text>
                     <DatePicker
@@ -41,7 +40,6 @@ function TodoItem({ todos, onDelete, onDone }) {
                       defaultValue={item.startTime}
                     />
                     <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
-
                   </Space>
                 </Row>
               </List.Item> : null
@@ -49,7 +47,7 @@ function TodoItem({ todos, onDelete, onDone }) {
         />
       </Row>
       <Row>
-        <Collapse bordered={false}>
+        <Collapse bordered={false} style={{ 'width': '100%' }}>
           <Collapse.Panel header="Completed">
             <List
               locale={{ emptyText: 'No Task Completed' }}

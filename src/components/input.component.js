@@ -12,11 +12,11 @@ function InputForm({ addTodo }) {
   return (
     <>
       <Input.Group size="large">
-        <Row gutter={10}>
-          <Col span={18} >
+        <Row gutter={50}>
+          <Col span={20} >
             <Input placeholder="Todo" value={todo} onChange={(e) => setTodo(e.target.value)} />
           </Col>
-          <Col span={6}>
+          <Col span={4}>
             <Button type="primary" size='large' onClick={handleSubmit}>Add</Button>
           </Col>
         </Row>

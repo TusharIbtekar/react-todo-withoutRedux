@@ -20,8 +20,6 @@ function App() {
     const todoList = [...todos];
     todoList.map(item => {
       if (id === item.id) {
-        // item.done = item.done ? false : true;
-
         if (item.done) {
           item.done = false;
         } else {
@@ -37,8 +35,8 @@ function App() {
     <>
       <Row align="middle" justify="center">
         <Col span={12} >
-          <Row justify="center">
-            <Typography.Title>
+          <Row justify="center" style={{ 'margin-top': '5%' }}>
+            <Typography.Title >
               ToDo
             </Typography.Title>
           </Row>
