@@ -37,7 +37,7 @@ function TodoItem({ todos, onDelete, onDone }) {
                     <DatePicker
                       format="ddd, MMMM Do , h:mm:ss a"
                       showTime={{ defaultValue: moment() }}
-                      defaultValue={item.startTime}
+                      defaultValue={moment(item.startTime)}
                     />
                     <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
                   </Space>
@@ -62,12 +62,12 @@ function TodoItem({ todos, onDelete, onDone }) {
                         <DatePicker
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}
-                          defaultValue={item.startTime}
+                          defaultValue={moment(item.startTime)}
                         />
                         <DatePicker
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}
-                          defaultValue={item.endTime}
+                          defaultValue={moment(item.endTime)}
                         />
                         <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
 

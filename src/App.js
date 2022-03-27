@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row, Typography } from "antd";
 import InputForm from "./components/input.component";
 import TodoItem from "./components/todoItem.component";
@@ -31,11 +31,32 @@ function App() {
     setTodos(todoList);
   }
 
+  const setLocalTodos = () => {
+    if (todos.length > 0) {
+      console.log(todos);
+      localStorage.setItem('todos', JSON.stringify(todos))
+    }
+  }
+
+  const getLocalTodos = () => {
+    let todoLocal = JSON.parse(localStorage.getItem('todos'));
+    setTodos(todoLocal);
+  }
+
+  useEffect(() => {
+    setLocalTodos();
+  }, [todos])
+
+  useEffect(() => {
+    getLocalTodos();
+  }, [])
+
+
   return (
     <>
       <Row align="middle" justify="center">
         <Col span={12} >
-          <Row justify="center" style={{ 'margin-top': '5%' }}>
+          <Row justify="center" style={{ 'marginTop': '5%' }}>
             <Typography.Title >
               ToDo
             </Typography.Title>
