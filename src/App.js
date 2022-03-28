@@ -3,9 +3,11 @@ import { Col, Row, Typography } from "antd";
 import InputForm from "./components/input.component";
 import TodoItem from "./components/todoItem.component";
 import moment from "moment";
+import Chart from "./components/chart.component";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [doneTodos, setDoneTodos] = useState([])
 
   const addTodo = todo => {
     setTodos([...todos, { id: Date.now(), title: todo, done: false, startTime: moment() }])
@@ -25,6 +27,7 @@ function App() {
         } else {
           item.done = true;
           item.endTime = moment();
+          // setDoneTodos([...doneTodos, { title: item.title, timetaken: item.endTime - item.startTime }])
         }
       }
     });
@@ -33,7 +36,7 @@ function App() {
 
   const setLocalTodos = () => {
     if (todos.length > 0) {
-      console.log(todos);
+      // console.log(todos);
       localStorage.setItem('todos', JSON.stringify(todos))
     }
   }
@@ -41,6 +44,11 @@ function App() {
   const getLocalTodos = () => {
     let todoLocal = JSON.parse(localStorage.getItem('todos'));
     setTodos(todoLocal);
+    console.log('here');
+    todos.map(todo => (
+      // todo.done ? console.log(moment(todo.endTime).diff(todo.startTime, 'seconds')) : null
+      todo.done ? setDoneTodos([...doneTodos, { title: todo.title, timeTaken: moment(todo.endTime).diff(moment(todo.startTime), 'seconds') }]) : null
+    ))
   }
 
   useEffect(() => {
@@ -68,6 +76,9 @@ function App() {
             todos={todos}
             onDelete={handleDelete}
             onDone={handleDone}
+          />
+          <Chart
+            doneTodos={doneTodos}
           />
         </Col>
       </Row>
