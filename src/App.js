@@ -4,6 +4,8 @@ import InputForm from "./components/input.component";
 import TodoItem from "./components/todoItem.component";
 import moment from "moment";
 import Chart from "./components/chart.component";
+import ColumnChart from "./components/columnChart.component.js";
+import PieChart from "./components/pieChart.component";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -78,6 +80,12 @@ function App() {
             onDone={handleDone}
           />
           <Chart
+            doneTodos={doneTodos}
+          />
+          <ColumnChart
+            doneTodos={doneTodos}
+          />
+          <PieChart
             doneTodos={doneTodos}
           />
         </Col>
