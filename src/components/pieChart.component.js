@@ -1,10 +1,16 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 const PieChart = ({ doneTodos }) => {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    console.log(data);
+  }, [data])
+
 
   useLayoutEffect(() => {
 
@@ -36,6 +42,13 @@ const PieChart = ({ doneTodos }) => {
 
     // Set data
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+
+    // doneTodos.map(todo => (
+    //   setData([...data, { category: todo.title, value: todo.timeTaken }])
+    // ))
+    // series.data.setAll(data);
+
+
     series.data.setAll([{
       category: "Lithuania",
       value: 501.9

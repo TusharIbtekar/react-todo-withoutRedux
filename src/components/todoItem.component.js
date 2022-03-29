@@ -2,9 +2,12 @@ import React from 'react'
 import { Checkbox, List, Typography, Row, Col, Button, Space, Modal, Collapse, DatePicker } from 'antd';
 import moment from 'moment';
 import { DeleteTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+
 
 function TodoItem({ todos, onDelete, onDone }) {
   const { confirm } = Modal;
+  let endTime = moment();
 
   const showDeleteConfirm = id => {
     confirm({
@@ -21,6 +24,28 @@ function TodoItem({ todos, onDelete, onDone }) {
 
   }
 
+  const handleDone = (id) => {
+    confirm({
+      title: 'Select your finish time',
+      icon: <ExclamationCircleOutlined />,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        onDone(id, endTime);
+      },
+      onCancel() { },
+      content: (
+        <DatePicker
+          format="ddd, MMMM Do , h:mm:ss a"
+          showTime={{ defaultValue: moment() }}
+          defaultValue={endTime}
+          onChange={(dateString) => (endTime = dateString)}
+        />
+      ),
+    });
+  };
+
   return (
     <>
       <Row>
@@ -32,8 +57,14 @@ function TodoItem({ todos, onDelete, onDone }) {
               <List.Item>
                 <Row>
                   <Space>
-                    <Checkbox checked={item.done} onChange={() => onDone(item.id)} />
-                    <Typography.Text>{item.title}</Typography.Text>
+                    <Checkbox checked={item.done}
+                      onChange={() => handleDone(item.id)}
+                    />
+                    <Typography.Text>
+                      <Link style={{}} to={`/todo/${item.id}`}>
+                        {item.title}
+                      </Link>
+                    </Typography.Text>
                     <DatePicker
                       format="ddd, MMMM Do , h:mm:ss a"
                       showTime={{ defaultValue: moment() }}
@@ -58,7 +89,11 @@ function TodoItem({ todos, onDelete, onDone }) {
                     <Row>
                       <Space>
                         <Checkbox checked={item.done} onChange={() => onDone(item.id)} />
-                        <Typography.Text delete>{item.title}</Typography.Text>
+                        <Typography.Text delete>
+                          <Link style={{}} to={`/todo/${item.id}`}>
+                            {item.title}
+                          </Link>
+                        </Typography.Text>
                         <DatePicker
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}

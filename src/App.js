@@ -3,9 +3,6 @@ import { Col, Row, Typography } from "antd";
 import InputForm from "./components/input.component";
 import TodoItem from "./components/todoItem.component";
 import moment from "moment";
-import Chart from "./components/chart.component";
-import ColumnChart from "./components/columnChart.component.js";
-import PieChart from "./components/pieChart.component";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -20,21 +17,28 @@ function App() {
     setTodos(availableTodos);
   }
 
-  const handleDone = (id) => {
+  const handleDone = (id, endTime) => {
     const todoList = [...todos];
-    todoList.map(item => {
+    todoList.forEach((item, index, list) => {
       if (id === item.id) {
         if (item.done) {
           item.done = false;
         } else {
           item.done = true;
-          item.endTime = moment();
-          // setDoneTodos([...doneTodos, { title: item.title, timetaken: item.endTime - item.startTime }])
+          item.endTime = endTime;
+          const duration = moment
+            .duration(endTime.diff(item.startTime))
+            .asHours();
+          item.duration = duration;
         }
+        list[index] = item;
       }
     });
+    console.log(todoList);
     setTodos(todoList);
-  }
+  };
+
+
 
   const setLocalTodos = () => {
     if (todos.length > 0) {
@@ -45,16 +49,18 @@ function App() {
 
   const getLocalTodos = () => {
     let todoLocal = JSON.parse(localStorage.getItem('todos'));
-    setTodos(todoLocal);
+    if (todoLocal && todoLocal.length)
+      setTodos(todoLocal);
     console.log('here');
-    todos.map(todo => (
-      // todo.done ? console.log(moment(todo.endTime).diff(todo.startTime, 'seconds')) : null
-      todo.done ? setDoneTodos([...doneTodos, { title: todo.title, timeTaken: moment(todo.endTime).diff(moment(todo.startTime), 'seconds') }]) : null
-    ))
   }
 
   useEffect(() => {
     setLocalTodos();
+    let todoLocal = JSON.parse(localStorage.getItem('todos'));
+    todoLocal.map(todo => (
+      // todo.done ? console.log(moment(todo.endTime).diff(todo.startTime, 'seconds')) : null
+      todo.done ? setDoneTodos([...doneTodos, { title: todo.title, timeTaken: moment(todo.endTime).diff(moment(todo.startTime), 'seconds') }]) : null
+    ))
   }, [todos])
 
   useEffect(() => {
@@ -78,15 +84,6 @@ function App() {
             todos={todos}
             onDelete={handleDelete}
             onDone={handleDone}
-          />
-          <Chart
-            doneTodos={doneTodos}
-          />
-          <ColumnChart
-            doneTodos={doneTodos}
-          />
-          <PieChart
-            doneTodos={doneTodos}
           />
         </Col>
       </Row>
