@@ -78,7 +78,6 @@ const ColumnChart = () => {
 
     const allTodos = getTodos();
     const doneTodos = allTodos.filter((todo) => todo.done);
-    console.log(doneTodos);
 
     const data = doneTodos.map((todo) => {
       return { task: todo.title, value: todo.duration };
@@ -97,10 +96,6 @@ const ColumnChart = () => {
 
   return (
     <div id="ColumnChartdiv" style={{ width: '100%', height: '500px' }}></div>
-    // <>
-    //   {console.log(doneTodos)}
-    //   <p>{doneTodos.timeTaken}</p>
-    // </>
   );
 };
 

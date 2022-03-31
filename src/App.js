@@ -4,10 +4,13 @@ import moment from 'moment';
 
 import InputForm from './components/input.component';
 import TodoItem from './components/todoItem.component';
+import getLocalTodos from './services/getTodos';
+import setLocalTodos from './services/setTodos';
+import axios from 'axios';
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [doneTodos, setDoneTodos] = useState([]);
+  const [weather, setWeather] = useState('');
 
   const addTodo = (todo) => {
     setTodos([
@@ -41,46 +44,55 @@ function App() {
     setTodos(todoList);
   };
 
-  const setLocalTodos = () => {
-    if (todos.length > 0) {
-      // console.log(todos);
-      localStorage.setItem('todos', JSON.stringify(todos));
-    }
-  };
-
-  const getLocalTodos = () => {
-    let todoLocal = JSON.parse(localStorage.getItem('todos'));
-    if (todoLocal && todoLocal.length) {
-      setTodos(todoLocal);
-      console.log('here');
-      todos.map((todo) =>
-        // todo.done ? console.log(moment(todo.endTime).diff(todo.startTime, 'seconds')) : null
-        todo.done
-          ? setDoneTodos([
-            ...doneTodos,
-            {
-              title: todo.title,
-              timeTaken: moment(todo.endTime).diff(
-                moment(todo.startTime),
-                'seconds'
-              ),
-            },
-          ])
-          : null
-      );
-    }
-  };
-
   useEffect(() => {
-    setLocalTodos();
+    if (todos.length > 0) {
+      setLocalTodos(todos);
+    }
   }, [todos]);
 
   useEffect(() => {
-    getLocalTodos();
+    let todoLocal = getLocalTodos();
+    if (todoLocal && todoLocal.length) {
+      setTodos(todoLocal);
+    }
+    getWeather(function (location) {
+      let res = axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.long}&appid=2c6d3ef7190833eab7714c3bc203d21f&units=metric`) //jbondy@nwhsii.com
+      res
+        .then(response => {
+          setWeather(response.data);
+          console.log(weather);
+        })
+    })
   }, []);
+
+  const hours = new Date().getHours()
+  const isDayTime = hours > 6 && hours < 20
+  console.log(isDayTime);
+
+
+  function getWeather(weatherAPI) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      weatherAPI({ lat: position.coords.latitude, long: position.coords.longitude })
+    });
+  }
 
   return (
     <>
+      {weather && (
+        <Row justify="end">
+          <Col span={4}>
+            <Row>
+              <Typography.Title level={3} type="secondary">{weather.sys.country}</Typography.Title>
+            </Row>
+            <Row>
+              <Typography.Title level={4} type="secondary">{weather.main.temp} Celcius</Typography.Title>
+            </Row>
+            <Row>
+              <Typography.Title level={4} type="secondary">{weather.weather[0].main}</Typography.Title>
+            </Row>
+          </Col>
+        </Row>
+      )}
       <Row align="middle" justify="center">
         <Col span={12}>
           <Row justify="center" style={{ marginTop: '5%' }}>
