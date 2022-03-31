@@ -3,17 +3,10 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import getTodos from '../services/getTodos';
 
-const PieChart = ({ doneTodos }) => {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    console.log(data);
-  }, [data])
-
-
+const PieChart = () => {
   useLayoutEffect(() => {
-
     let root = am5.Root.new("PieChartdiv");
 
     root.setThemes([
@@ -27,11 +20,10 @@ const PieChart = ({ doneTodos }) => {
     );
 
     // Create series
-    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
     var series = chart.series.push(
       am5percent.PieSeries.new(root, {
-        valueField: "value",
-        categoryField: "category",
+        valueField: "duration",
+        categoryField: "task",
         endAngle: 270
       })
     );
@@ -43,34 +35,36 @@ const PieChart = ({ doneTodos }) => {
     // Set data
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
 
-    // doneTodos.map(todo => (
-    //   setData([...data, { category: todo.title, value: todo.timeTaken }])
-    // ))
-    // series.data.setAll(data);
+    const allTodos = getTodos();
+    const doneTodos = allTodos.filter((todo) => todo.done);
 
+    const data = doneTodos.map((todo) => {
+      return { task: todo.title, duration: todo.duration };
+    });
 
-    series.data.setAll([{
-      category: "Lithuania",
-      value: 501.9
-    }, {
-      category: "Czechia",
-      value: 301.9
-    }, {
-      category: "Ireland",
-      value: 201.1
-    }, {
-      category: "Germany",
-      value: 165.8
-    }, {
-      category: "Australia",
-      value: 139.9
-    }, {
-      category: "Austria",
-      value: 128.3
-    }, {
-      category: "UK",
-      value: 99
-    }]);
+    // let data = [{
+    //   category: "Lithuania",
+    //   value: 501.9
+    // }, {
+    //   category: "Czechia",
+    //   value: 301.9
+    // }, {
+    //   category: "Ireland",
+    //   value: 201.1
+    // }, {
+    //   category: "Germany",
+    //   value: 165.8
+    // }, {
+    //   category: "Australia",
+    //   value: 139.9
+    // }, {
+    //   category: "Austria",
+    //   value: 128.3
+    // }, {
+    //   category: "UK",
+    //   value: 99
+    // }]
+    series.data.setAll(data);
 
     series.appear(1000, 100);
 
@@ -85,10 +79,6 @@ const PieChart = ({ doneTodos }) => {
 
   return (
     <div id="PieChartdiv" style={{ width: "100%", height: "500px" }}></div>
-    // <>
-    //   {console.log(doneTodos)}
-    //   <p>{doneTodos.timeTaken}</p>
-    // </>
   )
 }
 
