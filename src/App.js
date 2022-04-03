@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import { Routes, Route } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
@@ -7,6 +6,7 @@ import 'antd/dist/antd.css';
 import ChartWrapper from './components/chart/chart-wrapper.component';
 import TodoDetails from './components/todo/todo-details.component';
 import Todo from './components/todo.component';
+import Navbar from './components/navbar.component';
 
 const App = () => {
   useEffect(() => {
@@ -20,19 +20,22 @@ const App = () => {
 
   }, [])
   return (
-    <Routes>
-      <Route path="/" element={<Todo />} />
-      <Route path="/charts" element={<ChartWrapper />} />
-      <Route path="todo/:id" element={<TodoDetails />} />
-      <Route
-        path="*"
-        element={
-          <main style={{ padding: '1rem' }}>
-            <p>There's nothing here!</p>
-          </main>
-        }
-      />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Todo />} />
+        <Route path="/charts" element={<ChartWrapper />} />
+        <Route path="todo/:id" element={<TodoDetails />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: '1rem' }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
+      </Routes>
+    </>
   )
 }
 

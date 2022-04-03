@@ -65,11 +65,11 @@ function TodoItem({ todos, onDelete, onDone }) {
                         {item.title}
                       </Link>
                     </Typography.Text>
-                    <DatePicker
+                    {/* <DatePicker
                       format="ddd, MMMM Do , h:mm:ss a"
                       showTime={{ defaultValue: moment() }}
                       defaultValue={moment(item.startTime)}
-                    />
+                    /> */}
                     <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
                   </Space>
                 </Row>
@@ -94,7 +94,7 @@ function TodoItem({ todos, onDelete, onDone }) {
                             {item.title}
                           </Link>
                         </Typography.Text>
-                        <DatePicker
+                        {/* <DatePicker
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}
                           defaultValue={moment(item.startTime)}
@@ -103,7 +103,7 @@ function TodoItem({ todos, onDelete, onDone }) {
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}
                           defaultValue={moment(item.endTime)}
-                        />
+                        /> */}
                         <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
 
                       </Space>
