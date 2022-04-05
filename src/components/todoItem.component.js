@@ -50,12 +50,13 @@ function TodoItem({ todos, onDelete, onDone }) {
     <>
       <Row>
         <List
+          style={{ 'width': '98.5%', 'marginTop': '2%' }}
           locale={{ emptyText: 'Add ToDo' }}
           dataSource={todos}
           renderItem={item => (
             !item.done ?
               <List.Item>
-                <Row>
+                <Row style={{ 'width': '100%' }} justify='space-between'>
                   <Space>
                     <Checkbox checked={item.done}
                       onChange={() => handleDone(item.id)}
@@ -65,13 +66,13 @@ function TodoItem({ todos, onDelete, onDone }) {
                         {item.title}
                       </Link>
                     </Typography.Text>
-                    {/* <DatePicker
+                  </Space>
+                  {/* <DatePicker
                       format="ddd, MMMM Do , h:mm:ss a"
                       showTime={{ defaultValue: moment() }}
                       defaultValue={moment(item.startTime)}
                     /> */}
-                    <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
-                  </Space>
+                  <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
                 </Row>
               </List.Item> : null
           )}
@@ -86,7 +87,7 @@ function TodoItem({ todos, onDelete, onDone }) {
               renderItem={item => (
                 item.done ?
                   <List.Item>
-                    <Row>
+                    <Row style={{ 'width': '100%' }} justify='space-between'>
                       <Space>
                         <Checkbox checked={item.done} onChange={() => onDone(item.id)} />
                         <Typography.Text delete>
@@ -94,7 +95,8 @@ function TodoItem({ todos, onDelete, onDone }) {
                             {item.title}
                           </Link>
                         </Typography.Text>
-                        {/* <DatePicker
+                      </Space>
+                      {/* <DatePicker
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}
                           defaultValue={moment(item.startTime)}
@@ -104,9 +106,8 @@ function TodoItem({ todos, onDelete, onDone }) {
                           showTime={{ defaultValue: moment() }}
                           defaultValue={moment(item.endTime)}
                         /> */}
-                        <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
+                      <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
 
-                      </Space>
                     </Row>
                   </List.Item> : null
               )}

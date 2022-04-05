@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
+import './styles/App.css'
 
 import ChartWrapper from './components/chart/chart-wrapper.component';
 import TodoDetails from './components/todo/todo-details.component';

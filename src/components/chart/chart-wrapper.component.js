@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Radio, Space } from 'antd';
-import Chart from '../chart.component';
-import ColumnChart from '../columnChart.component.js';
-import PieChart from '../pieChart.component';
+import Chart from './chart.component';
+import ColumnChart from './columnChart.component.js';
+import PieChart from './pieChart.component';
 
 const ChartWrapper = ({ doneTodos }) => {
   const [chart, setChart] = useState('stacked');

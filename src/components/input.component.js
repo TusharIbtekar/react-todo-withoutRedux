@@ -10,20 +10,15 @@ function InputForm({ addTodo }) {
   }
 
   return (
-    <>
-      <Input.Group size="large">
-        <Row gutter={50}>
-          <Col span={20} >
-            <Input placeholder="Todo" value={todo} onChange={(e) => setTodo(e.target.value)} />
-          </Col>
-          <Col span={4}>
-            <Button type="primary" size='large' onClick={handleSubmit}>Add</Button>
-          </Col>
-        </Row>
-      </Input.Group>
 
-    </>
+    <Row style={{ 'width': '100%' }} justify='space-between'>
+      <Input.Group compact size="large">
+        <Input style={{ width: 'calc(100% - 100px)', 'marginRight': '3%' }} placeholder="Todo" value={todo} onChange={(e) => setTodo(e.target.value)} />
+        <Button type="primary" size='large' onClick={handleSubmit}>Add</Button>
+      </Input.Group>
+    </Row>
   )
 }
 
 export default InputForm;
+// size="large" style={{ 'width': '100%' }}

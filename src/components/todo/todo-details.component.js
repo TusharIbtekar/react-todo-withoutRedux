@@ -69,7 +69,7 @@ const TodoDetails = () => {
       direction="horizontal"
       style={{ width: '100%', justifyContent: 'center' }}
     >
-      <Card title={todo.title} bordered={false} style={{ width: '100%' }}>
+      <Card title={todo.title} bordered={false} style={{ width: '50vw' }}>
         {todo.duration ? <h4>Time taken: {todo.duration}</h4> : null}
         <Input.TextArea
           rows={6}
@@ -81,12 +81,12 @@ const TodoDetails = () => {
           onChange={handleNote}
         />
 
-        <Input
+        <Input.TextArea
           placeholder="Comment"
           value={comment}
           onChange={handleComment}
           onPressEnter={addComment}
-          prefix={<CommentOutlined />}
+        // prefix={<CommentOutlined />}
         />
 
         {todo.comments && todo.comments.length ? (
