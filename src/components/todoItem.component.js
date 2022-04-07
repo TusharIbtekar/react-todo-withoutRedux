@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, List, Typography, Row, Col, Button, Space, Modal, Collapse, DatePicker } from 'antd';
+import { Checkbox, List, Typography, Row, Button, Space, Modal, Collapse, DatePicker } from 'antd';
 import moment from 'moment';
 import { DeleteTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';

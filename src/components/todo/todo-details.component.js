@@ -6,6 +6,7 @@ import { CommentOutlined } from '@ant-design/icons';
 import Comment from './comment.component';
 import getTodos from '../../services/getTodos';
 import setTodos from '../../services/setTodos';
+import moment from 'moment';
 
 const TodoDetails = () => {
   const [todo, setTodo] = useState({});
@@ -70,7 +71,7 @@ const TodoDetails = () => {
       style={{ width: '100%', justifyContent: 'center' }}
     >
       <Card title={todo.title} bordered={false} style={{ width: '50vw' }}>
-        {todo.duration ? <h4>Time taken: {todo.duration}</h4> : null}
+        {todo.duration ? <h4>Time taken: {moment.duration(todo.duration, 'minutes').humanize()}</h4> : null}
         <Input.TextArea
           rows={6}
           showCount
