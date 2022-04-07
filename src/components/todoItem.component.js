@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, List, Typography, Row, Button, Space, Modal, Collapse, DatePicker } from 'antd';
+import { Checkbox, List, Typography, Row, Button, Space, Modal, Collapse, DatePicker, notification } from 'antd';
 import moment from 'moment';
 import { DeleteTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 function TodoItem({ todos, onDelete, onDone }) {
   const { confirm } = Modal;
+  const key = 'updatable';
   let endTime = moment();
 
   const showDeleteConfirm = id => {
@@ -18,6 +19,7 @@ function TodoItem({ todos, onDelete, onDone }) {
       cancelText: 'No',
       onOk() {
         onDelete(id);
+        openNotification();
       },
       onCancel() { },
     });
@@ -44,6 +46,15 @@ function TodoItem({ todos, onDelete, onDone }) {
         />
       ),
     });
+  };
+
+  const openNotification = () => {
+    setTimeout(() => {
+      notification.warn({
+        key,
+        message: 'Todo Deleted',
+      });
+    }, 1000);
   };
 
   return (

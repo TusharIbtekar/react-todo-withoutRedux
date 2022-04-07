@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Button, Row, Col } from 'antd';
+import { Input, Button, Row, Col, notification } from 'antd';
 
 function InputForm({ addTodo }) {
   const [todo, setTodo] = useState('');
@@ -7,7 +7,19 @@ function InputForm({ addTodo }) {
   const handleSubmit = () => {
     setTodo('');
     addTodo(todo);
+    openNotification();
   }
+
+  const key = 'updatable';
+
+  const openNotification = () => {
+    setTimeout(() => {
+      notification.success({
+        key,
+        message: 'Todo added',
+      });
+    }, 1000);
+  };
 
   return (
 
