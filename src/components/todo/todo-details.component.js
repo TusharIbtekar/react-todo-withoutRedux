@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, Space, Input, List } from 'antd';
-import { CommentOutlined } from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, Space, Input, List, Row, Button } from 'antd';
+import { CommentOutlined, LeftCircleFilled } from '@ant-design/icons';
 
 import Comment from './comment.component';
 import getTodos from '../../services/getTodos';
@@ -14,6 +14,7 @@ const TodoDetails = () => {
   const [changed, setChanged] = useState(false);
   const [note, setNote] = useState('');
 
+  const navigate = useNavigate();
   const id = parseInt(useParams().id);
 
   const addComment = (e) => {
@@ -66,43 +67,46 @@ const TodoDetails = () => {
   }, []);
 
   return (
-    <Space
-      direction="horizontal"
-      style={{ width: '100%', justifyContent: 'center' }}
-    >
-      <Card title={todo.title} bordered={false} style={{ width: '50vw' }}>
-        {todo.duration ? <h4>Time taken: {moment.duration(todo.duration, 'minutes').humanize()}</h4> : null}
-        <Input.TextArea
-          rows={6}
-          showCount
-          maxLength={150}
-          placeholder="Todo Note"
-          value={note}
-          onPressEnter={updateNote}
-          onChange={handleNote}
-        />
-
-        <Input.TextArea
-          placeholder="Comment"
-          value={comment}
-          onChange={handleComment}
-          onPressEnter={addComment}
-        // prefix={<CommentOutlined />}
-        />
-
-        {todo.comments && todo.comments.length ? (
-          <List
-            itemLayout="vertical"
-            dataSource={todo.comments}
-            renderItem={(item) => (
-              <List.Item>
-                <Comment comment={item} onDeleteComment={onDeleteComment} />
-              </List.Item>
-            )}
+    <Row>
+      <LeftCircleFilled style={{ fontSize: '30px', marginLeft: '20%', marginTop: '2%' }} onClick={() => navigate(-1)} />
+      <Space
+        direction="horizontal"
+        style={{ width: '100%', justifyContent: 'center' }}
+      >
+        <Card title={todo.title} bordered={false} style={{ width: '50vw' }}>
+          {todo.duration ? <h4>Time taken: {moment.duration(todo.duration, 'minutes').humanize()}</h4> : null}
+          <Input.TextArea
+            rows={6}
+            showCount
+            maxLength={150}
+            placeholder="Todo Note"
+            value={note}
+            onPressEnter={updateNote}
+            onChange={handleNote}
           />
-        ) : null}
-      </Card>
-    </Space>
+
+          <Input.TextArea
+            placeholder="Comment"
+            value={comment}
+            onChange={handleComment}
+            onPressEnter={addComment}
+          // prefix={<CommentOutlined />}
+          />
+
+          {todo.comments && todo.comments.length ? (
+            <List
+              itemLayout="vertical"
+              dataSource={todo.comments}
+              renderItem={(item) => (
+                <List.Item>
+                  <Comment comment={item} onDeleteComment={onDeleteComment} />
+                </List.Item>
+              )}
+            />
+          ) : null}
+        </Card>
+      </Space>
+    </Row>
   );
 };
 

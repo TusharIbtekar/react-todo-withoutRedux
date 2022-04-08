@@ -6,17 +6,21 @@ function InputForm({ addTodo }) {
 
   const handleSubmit = () => {
     setTodo('');
-    addTodo(todo);
-    openNotification();
+    if (todo) {
+      addTodo(todo);
+      openNotification('success', 'Todo Added');
+    } else {
+      openNotification('error', 'Field is empty');
+    }
   }
 
   const key = 'updatable';
 
-  const openNotification = () => {
+  const openNotification = (type, message) => {
     setTimeout(() => {
-      notification.success({
+      notification[type]({
         key,
-        message: 'Todo added',
+        message: message,
       });
     }, 1000);
   };
@@ -33,4 +37,3 @@ function InputForm({ addTodo }) {
 }
 
 export default InputForm;
-// size="large" style={{ 'width': '100%' }}

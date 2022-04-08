@@ -19,7 +19,7 @@ function TodoItem({ todos, onDelete, onDone }) {
       cancelText: 'No',
       onOk() {
         onDelete(id);
-        openNotification();
+        openNotification('warn', 'Todo Deleted');
       },
       onCancel() { },
     });
@@ -48,11 +48,11 @@ function TodoItem({ todos, onDelete, onDone }) {
     });
   };
 
-  const openNotification = () => {
+  const openNotification = (type, message) => {
     setTimeout(() => {
-      notification.warn({
+      notification[type]({
         key,
-        message: 'Todo Deleted',
+        message: message,
       });
     }, 1000);
   };
