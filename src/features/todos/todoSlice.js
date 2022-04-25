@@ -10,7 +10,8 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     saveTodo: (state, action) => {
-      state.todoList.push(action.payload)
+      // state.todoList.push(action.payload)
+      localStorage.setItem('todos', JSON.stringify(action.payload.todos));
     },
     setCheck: (state, action) => {
       state.todoList.map(item => {
@@ -19,13 +20,6 @@ const todoSlice = createSlice({
         }
       })
     },
-    // setShowDone: (state, action) => {
-    //   state.todoList.map(item => {
-    //     if (item.done === true) {
-    //       state.showDone = true;
-    //     }
-    //   })
-    // },
   }
 });
 
