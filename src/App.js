@@ -14,8 +14,10 @@ const App = () => {
     const hours = new Date().getHours()
     const isDayTime = hours > 6 && hours < 20
     if (isDayTime) {
+      // @ts-ignore
       import('antd/dist/antd.css')
     } else {
+      // @ts-ignore
       import('antd/dist/antd.dark.css')
     }
 

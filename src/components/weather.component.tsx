@@ -1,15 +1,15 @@
-import React from 'react';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Col, Row, Typography } from 'antd';
-
-import axios from 'axios';
 import { EnvironmentFilled } from '@ant-design/icons';
 
+import { WeatherRoot } from '../types/weather';
+
 const Weather = () => {
-  const [weather, setWeather] = useState('');
+  const [weather, setWeather] = useState<WeatherRoot | null>(null);
 
   useEffect(() => {
-    getWeather(function (location) {
+    getWeather(function (location: any) {
       let res = axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.long}&appid=2c6d3ef7190833eab7714c3bc203d21f&units=metric&city`) //jbondy@nwhsii.com
       res
         .then(response => {
@@ -20,7 +20,7 @@ const Weather = () => {
   }, []);
 
 
-  function getWeather(weatherAPI) {
+  function getWeather(weatherAPI: any) {
     navigator.geolocation.getCurrentPosition(function (position) {
       weatherAPI({ lat: position.coords.latitude, long: position.coords.longitude })
     });

@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
-import { Input, Button, Row, Col, notification } from 'antd';
+import { Input, Button, Row, notification } from 'antd';
 
-function InputForm({ addTodo }) {
+type Props = {
+  addTodo: (val: string) => void;
+};
+
+const InputForm: React.FC<Props> = ({ addTodo }) => {
   const [todo, setTodo] = useState('');
 
   const handleSubmit = () => {
@@ -16,9 +20,9 @@ function InputForm({ addTodo }) {
 
   const key = 'updatable';
 
-  const openNotification = (type, message) => {
+  const openNotification = (type: string, message: string) => {
     setTimeout(() => {
-      notification[type]({
+      (notification as any)[type]({
         key,
         message: message,
       });

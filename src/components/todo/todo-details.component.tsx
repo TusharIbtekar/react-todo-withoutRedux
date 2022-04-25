@@ -1,56 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, Space, Input, List, Row, Button } from 'antd';
-import { CommentOutlined, LeftCircleFilled } from '@ant-design/icons';
+import { Card, Space, Input, List, Row } from 'antd';
+import { LeftCircleFilled } from '@ant-design/icons';
 
 import Comment from './comment.component';
 import getTodos from '../../services/getTodos';
 import setTodos from '../../services/setTodos';
 import moment from 'moment';
 
+import { TodoRoot } from '../../types/todo'
+
 const TodoDetails = () => {
-  const [todo, setTodo] = useState({});
+  const [todo, setTodo] = useState<TodoRoot>();
   const [comment, setComment] = useState('');
   const [changed, setChanged] = useState(false);
   const [note, setNote] = useState('');
 
   const navigate = useNavigate();
-  const id = parseInt(useParams().id);
+  const id = parseInt((useParams() as any).id);
 
-  const addComment = (e) => {
-    todo.comments
-      ? setTodo({ ...todo, comments: [...todo.comments, e.target.value] })
-      : setTodo({ ...todo, comments: [e.target.value] });
+  const addComment = (e: any) => {
+    todo?.comment
+      ? setTodo({ ...todo, comment: [...todo.comment, e.target.value] })
+      : setTodo({ ...todo!, comment: [e.target.value] });
     setComment('');
     setChanged(true);
   };
 
   const updateNote = () => {
-    setTodo({ ...todo, note: note });
+    setTodo({ ...todo!, note: note });
     setChanged(true);
   };
 
-  const onDeleteComment = (comment) => {
-    const allComments = [...todo.comments];
+  const onDeleteComment = (comment: string) => {
+    const allComments = [...todo?.comment!];
     const newComments = allComments.filter((item) => item !== comment);
-    setTodo({ ...todo, comments: newComments });
+    setTodo({ ...todo!, comment: newComments });
     setChanged(true);
   };
 
-  const handleNote = (e) => {
+  const handleNote = (e: any) => {
     setNote(e.target.value);
   };
 
-  const handleComment = (e) => {
+  const handleComment = (e: any) => {
     setComment(e.target.value);
   };
 
   useEffect(() => {
     if (changed) {
       const todos = getTodos();
-      todos.forEach((item, i, list) => {
+      todos.forEach((item: TodoRoot, i: number, list: TodoRoot[]) => {
         if (item.id === id) {
-          list[i] = todo;
+          (list as any)[i] = todo;
         }
       });
       setTodos(todos); // Update localstorage
@@ -59,7 +61,7 @@ const TodoDetails = () => {
 
   useEffect(() => {
     const todos = getTodos();
-    const todo = todos.find((todo) => todo.id === id);
+    const todo = todos.find((todo: TodoRoot) => todo.id === id);
     if (todo.note) {
       setNote(todo.note);
     }
@@ -73,8 +75,8 @@ const TodoDetails = () => {
         direction="horizontal"
         style={{ width: '100%', justifyContent: 'center' }}
       >
-        <Card title={todo.title} bordered={false} style={{ width: '50vw' }}>
-          {todo.duration ? <h4>Time taken: {moment.duration(todo.duration, 'minutes').humanize()}</h4> : null}
+        <Card title={todo?.title} bordered={false} style={{ width: '50vw' }}>
+          {todo?.duration ? <h4>Time taken: {moment.duration(todo?.duration, 'minutes').humanize()}</h4> : null}
           <Input.TextArea
             rows={6}
             showCount
@@ -93,10 +95,10 @@ const TodoDetails = () => {
           // prefix={<CommentOutlined />}
           />
 
-          {todo.comments && todo.comments.length ? (
+          {todo?.comment && todo.comment.length ? (
             <List
               itemLayout="vertical"
-              dataSource={todo.comments}
+              dataSource={todo.comment}
               renderItem={(item) => (
                 <List.Item>
                   <Comment comment={item} onDeleteComment={onDeleteComment} />

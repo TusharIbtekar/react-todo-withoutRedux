@@ -1,16 +1,23 @@
 import React from 'react'
 import { Checkbox, List, Typography, Row, Button, Space, Modal, Collapse, DatePicker, notification } from 'antd';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { DeleteTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
+import { TodoRoot } from '../types/todo'
 
-function TodoItem({ todos, onDelete, onDone }) {
+type ITodoItem = {
+  todos: TodoRoot[];
+  onDelete: (id: number) => void;
+  onDone: (id: number, endTime: Moment) => void;
+};
+
+const TodoItem: React.FC<ITodoItem> = ({ todos, onDelete, onDone }) => {
   const { confirm } = Modal;
   const key = 'updatable';
   let endTime = moment();
 
-  const showDeleteConfirm = id => {
+  const showDeleteConfirm = (id: number) => {
     confirm({
       title: 'Are you sure to delete this task?',
       icon: <ExclamationCircleOutlined />,
@@ -26,7 +33,7 @@ function TodoItem({ todos, onDelete, onDone }) {
 
   }
 
-  const handleDone = (id) => {
+  const handleDone = (id: number) => {
     confirm({
       title: 'Select your finish time',
       icon: <ExclamationCircleOutlined />,
@@ -42,15 +49,15 @@ function TodoItem({ todos, onDelete, onDone }) {
           format="ddd, MMMM Do , h:mm:ss a"
           showTime={{ defaultValue: moment() }}
           defaultValue={endTime}
-          onChange={(dateString) => (endTime = dateString)}
+          onChange={(dateString) => (dateString ? endTime = dateString : null)}
         />
       ),
     });
   };
 
-  const openNotification = (type, message) => {
+  const openNotification = (type: string, message: string) => {
     setTimeout(() => {
-      notification[type]({
+      (notification as any)[type]({
         key,
         message: message,
       });
@@ -90,24 +97,24 @@ function TodoItem({ todos, onDelete, onDone }) {
         />
       </Row>
       <Row>
-        <Collapse bordered={false} style={{ 'width': '100%' }}>
-          <Collapse.Panel header="Completed">
-            <List
-              locale={{ emptyText: 'No Task Completed' }}
-              dataSource={todos}
-              renderItem={item => (
-                item.done ?
-                  <List.Item>
-                    <Row style={{ 'width': '100%' }} justify='space-between'>
-                      <Space>
-                        <Checkbox checked={item.done} onChange={() => onDone(item.id)} />
-                        <Typography.Text delete>
-                          <Link style={{}} to={`/todo/${item.id}`}>
-                            {item.title}
-                          </Link>
-                        </Typography.Text>
-                      </Space>
-                      {/* <DatePicker
+        {/* <Collapse bordered={false} style={{ 'width': '100%' }}> */}
+        {/* <Collapse.Panel header="Completed"> */}
+        <List
+          locale={{ emptyText: 'No Task Completed' }}
+          dataSource={todos}
+          renderItem={item => (
+            item.done ?
+              <List.Item>
+                <Row style={{ 'width': '100%' }} justify='space-between'>
+                  <Space>
+                    <Checkbox checked={item.done} onChange={() => onDone(item.id, moment(0))} />
+                    <Typography.Text delete>
+                      <Link style={{}} to={`/todo/${item.id}`}>
+                        {item.title}
+                      </Link>
+                    </Typography.Text>
+                  </Space>
+                  {/* <DatePicker
                           format="ddd, MMMM Do , h:mm:ss a"
                           showTime={{ defaultValue: moment() }}
                           defaultValue={moment(item.startTime)}
@@ -117,14 +124,14 @@ function TodoItem({ todos, onDelete, onDone }) {
                           showTime={{ defaultValue: moment() }}
                           defaultValue={moment(item.endTime)}
                         /> */}
-                      <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
+                  <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
 
-                    </Row>
-                  </List.Item> : null
-              )}
-            />
-          </Collapse.Panel>
-        </Collapse>
+                </Row>
+              </List.Item> : null
+          )}
+        />
+        {/* </Collapse.Panel> */}
+        {/* </Collapse> */}
       </Row>
     </>
   )
