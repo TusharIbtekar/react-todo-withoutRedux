@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Space, Input, List, Row } from 'antd';
 import { LeftCircleFilled } from '@ant-design/icons';
 
 import Comment from './comment.component';
 import getTodos from '../../services/getTodos';
-import setTodos from '../../services/setTodos';
 import moment from 'moment';
 
 import { TodoRoot } from '../../types/todo'
+import { useDispatch } from 'react-redux';
+import { saveTodo } from '../../features/todos/todoSlice';
 
 const TodoDetails = () => {
   const [todo, setTodo] = useState<TodoRoot>();
@@ -16,6 +17,7 @@ const TodoDetails = () => {
   const [changed, setChanged] = useState(false);
   const [note, setNote] = useState('');
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const id = parseInt((useParams() as any).id);
 
@@ -55,7 +57,8 @@ const TodoDetails = () => {
           (list as any)[i] = todo;
         }
       });
-      setTodos(todos); // Update localstorage
+      // setTodos(todos); // Update localstorage
+      dispatch(saveTodo({ todos }))
     }
   }, [todo, changed, id]);
 

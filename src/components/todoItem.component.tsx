@@ -5,17 +5,20 @@ import { DeleteTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import { TodoRoot } from '../types/todo'
+import { useSelector } from 'react-redux';
+import { fetchTodoList } from '../features/todos/todoSlice';
 
 type ITodoItem = {
-  todos: TodoRoot[];
   onDelete: (id: number) => void;
-  onDone: (id: number, endTime: Moment) => void;
+  onDone: (id: number, endTime: string) => void;
 };
 
-const TodoItem: React.FC<ITodoItem> = ({ todos, onDelete, onDone }) => {
+const TodoItem: React.FC<ITodoItem> = ({ onDelete, onDone }) => {
   const { confirm } = Modal;
   const key = 'updatable';
   let endTime = moment();
+
+  const todos: TodoRoot[] = useSelector(fetchTodoList);
 
   const showDeleteConfirm = (id: number) => {
     confirm({
@@ -41,7 +44,7 @@ const TodoItem: React.FC<ITodoItem> = ({ todos, onDelete, onDone }) => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        onDone(id, endTime);
+        onDone(id, endTime.toString());
       },
       onCancel() { },
       content: (
@@ -85,11 +88,6 @@ const TodoItem: React.FC<ITodoItem> = ({ todos, onDelete, onDone }) => {
                       </Link>
                     </Typography.Text>
                   </Space>
-                  {/* <DatePicker
-                      format="ddd, MMMM Do , h:mm:ss a"
-                      showTime={{ defaultValue: moment() }}
-                      defaultValue={moment(item.startTime)}
-                    /> */}
                   <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
                 </Row>
               </List.Item> : null
@@ -107,23 +105,13 @@ const TodoItem: React.FC<ITodoItem> = ({ todos, onDelete, onDone }) => {
               <List.Item>
                 <Row style={{ 'width': '100%' }} justify='space-between'>
                   <Space>
-                    <Checkbox checked={item.done} onChange={() => onDone(item.id, moment(0))} />
+                    <Checkbox checked={item.done} onChange={() => onDone(item.id, '0')} />
                     <Typography.Text delete>
                       <Link style={{}} to={`/todo/${item.id}`}>
                         {item.title}
                       </Link>
                     </Typography.Text>
                   </Space>
-                  {/* <DatePicker
-                          format="ddd, MMMM Do , h:mm:ss a"
-                          showTime={{ defaultValue: moment() }}
-                          defaultValue={moment(item.startTime)}
-                        />
-                        <DatePicker
-                          format="ddd, MMMM Do , h:mm:ss a"
-                          showTime={{ defaultValue: moment() }}
-                          defaultValue={moment(item.endTime)}
-                        /> */}
                   <Button onClick={() => showDeleteConfirm(item.id)}><DeleteTwoTone /></Button>
 
                 </Row>

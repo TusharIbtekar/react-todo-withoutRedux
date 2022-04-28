@@ -4,8 +4,10 @@ export type TodoRoot = {
   id: number;
   title: string;
   done: boolean;
-  startTime: Moment;
-  endTime?: Moment;
+  // startTime: Moment;
+  startTime: string;
+  // endTime?: Moment;
+  endTime?: string;
   note?: string;
   comment?: string[];
   duration?: number;

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import moment from 'moment';
 
 const initialState = {
   todoList: [],
-  // showDone: Boolean
 }
 
 const todoSlice = createSlice({
@@ -10,20 +10,33 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     saveTodo: (state, action) => {
-      // state.todoList.push(action.payload)
-      localStorage.setItem('todos', JSON.stringify(action.payload.todos));
+      state.todoList = action.payload.todos;
+      if (action.payload.todos)
+        localStorage.setItem('todos', JSON.stringify(action.payload.todos));
     },
-    setCheck: (state, action) => {
+    setDone: (state, action) => {
       state.todoList.map(item => {
-        if (action.payload === item.id) {
-          item.done = item.done ? false : true
+        if (action.payload.id === item.id) {
+          console.log(action);
+          if (item.done) {
+            item.done = false;
+          } else {
+            item.done = true;
+            item.endTime = action.payload.endTime;
+            const duration = moment
+              .duration(moment(item.endTime).diff(moment(item.startTime)))
+              .asHours();
+            item.duration = duration;
+          }
+          // item.done = item.done ? false : true
         }
       })
+      localStorage.setItem('todos', JSON.stringify(state.todoList));
     },
   }
 });
 
-export const { saveTodo, setCheck } = todoSlice.actions
+export const { saveTodo, setDone } = todoSlice.actions
 
 export const fetchTodoList = state => state.todos.todoList
 

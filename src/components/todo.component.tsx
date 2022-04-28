@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 
 import InputForm from './input.component';
 import TodoItem from './todoItem.component';
 import getLocalTodos from '../services/getTodos';
-import setLocalTodos from '../services/setTodos';
 import Weather from './weather.component';
 import { TodoRoot } from '../types/todo'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodoList, saveTodo } from '../features/todos/todoSlice';
+import { useDispatch } from 'react-redux';
+import { saveTodo, setDone } from '../features/todos/todoSlice';
 
 function Todo() {
   const [todos, setTodos] = useState<TodoRoot[]>([]);
@@ -19,7 +18,7 @@ function Todo() {
   const addTodo = (todo: string) => {
     setTodos([
       ...todos,
-      { id: Date.now(), title: todo, done: false, startTime: moment() },
+      { id: Date.now(), title: todo, done: false, startTime: moment().toString() },
     ]);
   };
 
@@ -28,25 +27,26 @@ function Todo() {
     setTodos(availableTodos);
   };
 
-  const handleDone = (id: number, endTime: Moment) => {
-    const todoList = [...todos];
-    todoList.forEach((item, index, list) => {
-      if (id === item.id) {
-        if (item.done) {
-          item.done = false;
-        } else {
-          item.done = true;
-          item.endTime = endTime;
-          const duration = moment
-            .duration(endTime.diff(item.startTime))
-            .asHours();
-          item.duration = duration;
-        }
-        list[index] = item;
-      }
-    });
-    console.log(todoList);
-    setTodos(todoList);
+  const handleDone = (id: number, endTime: string) => {
+    // const todoList = [...todos];
+    dispatch(setDone({ id, endTime }));
+    // todoList.forEach((item, index, list) => {
+    // if (id === item.id) {
+    // if (item.done) {
+    //   item.done = false;
+    // } else {
+    //   item.done = true;
+    //   item.endTime = endTime;
+    //   const duration = moment
+    //     .duration(endTime.diff(item.startTime))
+    //     .asHours();
+    //   item.duration = duration;
+    // }
+    // list[index] = item;
+    // }
+    // });
+    // console.log(todoList);
+    // setTodos(todoList);
   };
 
   useEffect(() => {
@@ -60,7 +60,6 @@ function Todo() {
 
   useEffect(() => {
     let todoLocal = getLocalTodos();
-    // let todoLocal = useSelector(fetchTodoList);
     if (todoLocal && todoLocal.length) {
       setTodos(todoLocal);
     }
@@ -73,7 +72,7 @@ function Todo() {
           <Row>
             <InputForm addTodo={addTodo} />
           </Row>
-          <TodoItem todos={todos} onDelete={handleDelete} onDone={handleDone} />
+          <TodoItem onDelete={handleDelete} onDone={handleDone} />
         </Col>
         <Col span={4}>
           <Weather />
