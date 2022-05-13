@@ -14,7 +14,6 @@ const Weather = () => {
       res
         .then(response => {
           setWeather(response.data);
-          console.log(response.data);
         })
     })
   }, []);
